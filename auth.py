@@ -1,8 +1,6 @@
 import functools
 
-from flask Import {
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-}
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -10,9 +8,9 @@ from sheets.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/register', methods=('GETR','POST'))
+@bp.route('/register', methods=('GET','POST'))
 def register():
-    if request.method == "POST"
+    if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -33,10 +31,12 @@ def register():
                 (username, generate_password_hash(password))
             )
             db.commit()
+            flash("Logged in")
+            pritn("logged in")
             return redirect(url_for('auth.login'))
 
         flash(error)
-    return render_template('auth/register.html.j2')
+    return render_template('auth/register.html')
 
 @bp.route('/login',methods=('GET','POST'))
 def login():
@@ -61,7 +61,8 @@ def login():
             return redirect(url_for('index'))
         
         flash(error)
-    return render_template('auth/login.html.j2')
+    return render_template('auth/login.html')
+
 
 
 @bp.before_app_request
@@ -70,7 +71,7 @@ def load_logged_in_user():
 
     if user_id is None:
         g.user = None
-    else 
+    else:
         g.user = get_db().execute(
             'SELECT * FROM user WHERE id = ?',(user_id,)
         ).fetchone()

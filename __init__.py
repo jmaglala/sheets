@@ -23,17 +23,17 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/")
-    def hello_world():
-        return render_template("home.html.j2")
+    #@app.route("/")
+    #def hello_world():
+    #    return render_template("home.html.j2")
 
     #@app.route("/user/<username>")
     #def user_profile(username):
     #    return "User %s" % escape(username)
 
-    @app.route("/login",methods=["GET","POST"])
-    def login():
-        return render_template("home.html.j2")
+    #@app.route("/login",methods=["GET","POST"])
+    #def login():
+    #    return render_template("home.html.j2")
 
     from . import db
     db.init_app(app)
